@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="payment_type">
+        <item>Cash</item>
+        <item>Bank Transfer BSI</item>
+        <item>e-Wallet</item>
+    </string-array>
+</resources>
