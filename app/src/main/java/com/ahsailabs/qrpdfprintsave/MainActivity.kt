@@ -30,6 +30,9 @@ import android.graphics.pdf.PdfDocument.PageInfo
 import android.net.Uri
 import android.print.PrintAttributes
 import android.print.PrintManager
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -50,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
             options.setPrompt("Scan qrcode of product")
             options.setCameraId(0) // Use a specific camera of the device
-
+            options.captureActivity = ScanCapturePortraitActivity::class.java
             options.setBeepEnabled(true)
             options.setBarcodeImageEnabled(false)
             options.setOrientationLocked(false)
@@ -65,6 +68,16 @@ class MainActivity : AppCompatActivity() {
                 requestStoragePermission()
             }
         }
+
+        binding.etGoodId.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(textView: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    //getDetail(binding.etGoodId.text.toString())
+                    return true
+                }
+                return false
+            }
+        })
     }
 
     private val barcodeLauncher = registerForActivityResult(
@@ -109,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         textPaint.color = ContextCompat.getColor(this, R.color.purple_500)
         textPaint.textSize = 15f
         textPaint.textAlign = Paint.Align.CENTER
-        
+
         canvas.drawText("This is a product id of your good you bought :", 396f, 560f, textPaint)
         canvas.drawText("1. $productId $productName : Rp $price", 396f, 580f, textPaint)
 
