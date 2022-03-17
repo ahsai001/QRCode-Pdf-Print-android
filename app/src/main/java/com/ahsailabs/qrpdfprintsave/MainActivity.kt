@@ -154,7 +154,13 @@ class MainActivity : AppCompatActivity() {
         val printManager = getSystemService(Context.PRINT_SERVICE) as PrintManager
         try{
             val printAdapter = PdfDocumentAdapter(pathPdf);
-            printManager.print("Invoice", printAdapter, PrintAttributes.Builder().build());
+            printManager.print(pathPdf, printAdapter,
+                PrintAttributes.Builder()
+                    .setColorMode(PrintAttributes.COLOR_MODE_MONOCHROME)
+                    .setMediaSize(PrintAttributes.MediaSize.ISO_C9)
+                    .setMinMargins(PrintAttributes.Margins(0,0,0,0))
+                    //.setResolution(PrintAttributes.Resolution("","", 50, 50))
+                    .build())
         }
         catch (e: Exception){
             e.printStackTrace()
@@ -167,7 +173,6 @@ class MainActivity : AppCompatActivity() {
         objIntent.setDataAndType(path, "application/pdf")
         objIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(objIntent)
-
     }
 
     private fun checkStoragePermission(): Boolean {
